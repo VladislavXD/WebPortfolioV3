@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { db, collection } from "../firebase";
-import { getDocs } from "firebase/firestore";
+import { getDocs, orderBy, query } from "firebase/firestore";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
@@ -113,6 +113,11 @@ const techStacks = [
   { icon: "MUI.svg", language: "Material UI" },
   { icon: "vercel.svg", language: "Vercel" },
   { icon: "SweetAlert.svg", language: "SweetAlert2" },
+  { icon: "typescript.svg", language: "TypeScript" },
+  { icon: "nextjs.svg", language: "Next.js" },
+  { icon: "python.svg", language: "Python" },
+  { icon: "nestjs.svg", language: "Nest.js" },
+  { icon: "c++.svg", language: "C++" },
 ];
 
 export default function FullWidthTabs() {
@@ -134,11 +139,14 @@ export default function FullWidthTabs() {
 
   const fetchData = useCallback(async () => {
     try {
-      const projectCollection = collection(db, "projects");
+      const sortedProjectsQuery = query(
+        collection(db, "projects"),
+        orderBy("Order", "asc")
+      )
       const certificateCollection = collection(db, "certificates");
 
       const [projectSnapshot, certificateSnapshot] = await Promise.all([
-        getDocs(projectCollection),
+        getDocs(sortedProjectsQuery), 
         getDocs(certificateCollection),
       ]);
 
@@ -309,6 +317,7 @@ export default function FullWidthTabs() {
                       Description={project.Description}
                       Link={project.Link}
                       id={project.id}
+                      
                     />
                   </div>
                 ))}

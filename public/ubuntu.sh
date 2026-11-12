@@ -170,7 +170,7 @@ cat > /var/www/index.php <<EOL
 <!DOCTYPE html>
 <html>
 <body>
-    <h1>Selamat Datang di Server $user_domain</h1>
+    <h1>Welcome to $user_domain</h1>
     <?php phpinfo(); ?>
 </body>
 </html>
